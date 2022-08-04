@@ -11,6 +11,12 @@ import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 object SunnyWeatherNetWork {
+    private val weatherService = ServiceCreator.create(WeatherService::class.java)
+    suspend fun getDailyWeather(lng:String,lat:String)=
+        weatherService.getDailyWeather(lng,lat).await()
+    suspend fun getRealtimeWeather(lng:String,lat:String)=
+        weatherService.getRealtimeWeather(lng,lat).await()
+
     private val placeService=ServiceCreator.create<PlaceService>()
     suspend fun searchPlace(query:String)= placeService.searchPlace(query).await()
     private suspend fun <T> Call<T>.await():T{
@@ -31,5 +37,7 @@ object SunnyWeatherNetWork {
         })}
         }
 
-    }
+
+
+}
 
